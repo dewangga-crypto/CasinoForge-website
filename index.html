@@ -35,6 +35,7 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Responsive Container for PC and Mobile */
         .container {
             text-align: center;
             background: var(--card-bg);
@@ -45,6 +46,14 @@
             max-width: 420px;
             width: 100%;
             backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+
+        /* Mobile specific spacing fixes */
+        @media (max-width: 480px) {
+            body { padding: 15px; }
+            .container { padding: 30px 20px; }
+            h1 { font-size: 28px; }
         }
 
         .logo-placeholder {
@@ -56,10 +65,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 32px;
-            color: #000;
-            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+            font-size: 45px;
             box-shadow: 0 0 25px rgba(241, 196, 15, 0.4);
             border: 3px solid #ffffff;
         }
@@ -78,6 +84,7 @@
             color: var(--text-muted);
             font-size: 14px;
             margin-bottom: 30px;
+            line-height: 1.4;
         }
 
         .btn {
@@ -91,6 +98,7 @@
             font-weight: 700;
             cursor: pointer;
             text-decoration: none;
+            text-align: center;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             box-sizing: border-box;
         }
@@ -119,7 +127,7 @@
             transform: translateY(-1px);
         }
 
-        /* Modal Popups Styling */
+        /* Modal Popups Configuration */
         .modal {
             display: none;
             position: fixed;
@@ -148,6 +156,11 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 480px) {
+            .modal-content { padding: 20px; max-height: 90vh; }
         }
 
         .modal-header {
@@ -162,11 +175,11 @@
         .modal-body {
             overflow-y: auto;
             text-align: left;
-            padding-right: 10px;
+            padding-right: 5px;
             line-height: 1.6;
             color: #d1d1d6;
             font-size: 14px;
-            white-space: pre-wrap; /* Preserves text formatting from Gists */
+            white-space: pre-wrap;
         }
 
         .close-btn {
@@ -179,21 +192,11 @@
             transition: color 0.2s;
         }
 
-        .close-btn:hover {
-            color: #fff;
-        }
+        .close-btn:hover { color: #fff; }
 
-        /* Custom Scrollbar for Modal Text */
-        .modal-body::-webkit-scrollbar {
-            width: 6px;
-        }
-        .modal-body::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.1);
-        }
-        .modal-body::-webkit-scrollbar-thumb {
-            background: rgba(243, 156, 18, 0.3);
-            border-radius: 4px;
-        }
+        .modal-body::-webkit-scrollbar { width: 6px; }
+        .modal-body::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        .modal-body::-webkit-scrollbar-thumb { background: rgba(243, 156, 18, 0.3); border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -203,15 +206,16 @@
     <h1>CasinoForge</h1>
     <div class="tagline">The ultimate casino experience for your Discord server.</div>
     
-    <a href="https://discord.com" target="_blank" class="btn btn-invite">Invite Bot to Server</a>
-    <button class="btn btn-secondary" onclick="openModal('privacyModal')">Privacy Policy</button>
-    <button class="btn btn-secondary" onclick="openModal('tosModal')">Terms of Service</button>
+    <!-- Clean Hash Links -->
+    <a href="#invite" class="btn btn-invite">Invite Bot to Server</a>
+    <a href="#privacypolicy" class="btn btn-secondary">Privacy Policy</a>
+    <a href="#tos" class="btn btn-secondary">Terms of Service</a>
 </div>
 
 <!-- Privacy Policy Modal -->
-<div id="privacyModal" class="modal" onclick="closeModalOnOutsideClick(event, 'privacyModal')">
+<div id="privacypolicy" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('privacyModal')">&times;</span>
+        <span class="close-btn" onclick="clearRoute()">&times;</span>
         <div class="modal-header">Privacy Policy</div>
         <div class="modal-body">
 **CasinoForge Privacy Policy**
@@ -233,9 +237,9 @@ You have complete control over your data. If you wish to wipe your economy recor
 </div>
 
 <!-- Terms of Service Modal -->
-<div id="tosModal" class="modal" onclick="closeModalOnOutsideClick(event, 'tosModal')">
+<div id="tos" class="modal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('tosModal')">&times;</span>
+        <span class="close-btn" onclick="clearRoute()">&times;</span>
         <div class="modal-header">Terms of Service</div>
         <div class="modal-body">
 **CasinoForge Terms of Service**
@@ -257,20 +261,40 @@ CasinoForge is provided "as-is". The developers are not liable for any server da
 </div>
 
 <script>
-    function openModal(id) {
-        document.getElementById(id).style.display = 'flex';
+    const DISCORD_INVITE_URL = "https://discord.com";
+
+    // Handle initial routing and URL adjustments on dynamic user navigation
+    function handleRouting() {
+        const hash = window.location.hash;
+        
+        // Hide all modals by default
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+
+        if (hash === '#invite') {
+            // Clean routing to prevent multi-tab infinite loops on target platforms
+            window.location.hash = ''; 
+            window.open(DISCORD_INVITE_URL, '_blank');
+        } else if (hash === '#privacypolicy') {
+            document.getElementById('privacypolicy').style.display = 'flex';
+        } else if (hash === '#tos') {
+            document.getElementById('tos').style.display = 'flex';
+        }
     }
 
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
+    function clearRoute() {
+        window.location.hash = '';
     }
 
-    function closeModalOnOutsideClick(event, id) {
-        if (event.target === document.getElementById(id)) {
-            closeModal(id);
+    // Monitor browser path changes instantly
+    window.addEventListener('hashchange', handleRouting);
+    window.addEventListener('load', handleRouting);
+
+    // Dynamic background closure for modals
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            clearRoute();
         }
     }
 </script>
 
 </body>
-</html>
