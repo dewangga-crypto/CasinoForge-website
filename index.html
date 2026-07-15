@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CasinoForge - Premium Discord Bot</title>
+    <style>
+        :root {
+            --gold: #f39c12;
+            --gold-hover: #d35400;
+            --bg-dark: #0b090a;
+            --card-bg: #161a1d;
+            --text-light: #f5f3f4;
+            --text-muted: #a4a6b0;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b090a 0%, #1a0f12 50%, #0b090a 100%);
+            background-size: 400% 400%;
+            animation: gradientBg 15s ease infinite;
+            color: var(--text-light);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradientBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(243, 156, 18, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(243, 156, 18, 0.05);
+            max-width: 420px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-placeholder {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #f1c40f, #d35400);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 32px;
+            color: #000;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.3);
+            box-shadow: 0 0 25px rgba(241, 196, 15, 0.4);
+            border: 3px solid #ffffff;
+        }
+
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(to right, #fff, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px 0;
+            margin: 14px 0;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+        }
+
+        .btn-invite {
+            background: linear-gradient(135deg, var(--gold), var(--gold-hover));
+            color: #000;
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-invite:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 25px rgba(243, 156, 18, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background-color: #2b2d42;
+            color: #e0e1dd;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-secondary:hover {
+            background-color: #3d405b;
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* Modal Popups Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: #1a1a24;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--gold);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            text-align: left;
+            padding-right: 10px;
+            line-height: 1.6;
+            color: #d1d1d6;
+            font-size: 14px;
+            white-space: pre-wrap; /* Preserves text formatting from Gists */
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        /* Custom Scrollbar for Modal Text */
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .modal-body::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+        }
+        .modal-body::-webkit-scrollbar-thumb {
+            background: rgba(243, 156, 18, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo-placeholder">🎰</div>
+    <h1>CasinoForge</h1>
+    <div class="tagline">The ultimate casino experience for your Discord server.</div>
+    
+    <a href="https://discord.com" target="_blank" class="btn btn-invite">Invite Bot to Server</a>
+    <button class="btn btn-secondary" onclick="openModal('privacyModal')">Privacy Policy</button>
+    <button class="btn btn-secondary" onclick="openModal('tosModal')">Terms of Service</button>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div id="privacyModal" class="modal" onclick="closeModalOnOutsideClick(event, 'privacyModal')">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('privacyModal')">&times;</span>
+        <div class="modal-header">Privacy Policy</div>
+        <div class="modal-body">
+**CasinoForge Privacy Policy**
+Last Updated: July 2026
+
+**1. Data We Collect**
+CasinoForge limits data collection strictly to what is necessary for operations. This includes your Discord User ID, Server ID, username, and virtual economy balances. We do not access or store personal real-world identities.
+
+**2. How We Use Data**
+Your data is used entirely to run the casino games, track server-specific scores, and process commands smoothly. 
+
+**3. Data Storage & Security**
+All virtual casino metrics are stored securely. We do not sell, trade, or distribute your server's data or profiles to any third-party entities.
+
+**4. User Rights**
+You have complete control over your data. If you wish to wipe your economy records or bot history from our systems, simply remove the bot or reach out directly via our developer portal.
+        </div>
+    </div>
+</div>
+
+<!-- Terms of Service Modal -->
+<div id="tosModal" class="modal" onclick="closeModalOnOutsideClick(event, 'tosModal')">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal('tosModal')">&times;</span>
+        <div class="modal-header">Terms of Service</div>
+        <div class="modal-body">
+**CasinoForge Terms of Service**
+Last Updated: July 2026
+
+**1. Acceptance of Terms**
+By inviting CasinoForge to your server or executing its commands, you agree to comply with these terms and conditions.
+
+**2. Virtual Currency Disclaimer**
+All tokens, coins, and reward structures operated by CasinoForge are strictly virtual. They hold **zero real-world financial value**. Trading virtual currency for real money, services, or goods outside the bot ecosystem is strictly prohibited.
+
+**3. Fair Play & Exploits**
+Any attempts to exploit bugs, abuse duplicate glitches, macro spam, or cheat the economy systems will result in an immediate global ban from using the bot.
+
+**4. Limitation of Liability**
+CasinoForge is provided "as-is". The developers are not liable for any server data loss, server downtime, or disruptions within your community space.
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(id) {
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
+    }
+
+    function closeModalOnOutsideClick(event, id) {
+        if (event.target === document.getElementById(id)) {
+            closeModal(id);
+        }
+    }
+</script>
+
+</body>
+</html>
