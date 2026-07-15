@@ -179,7 +179,23 @@
             line-height: 1.6;
             color: #d1d1d6;
             font-size: 14px;
-            white-space: pre-wrap;
+        }
+
+        .modal-body p {
+            margin: 0 0 15px 0;
+        }
+
+        .modal-body strong {
+            color: #ffffff;
+        }
+
+        .modal-body ul {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+
+        .modal-body li {
+            margin-bottom: 5px;
         }
 
         .close-btn {
@@ -218,20 +234,19 @@
         <span class="close-btn" onclick="clearRoute()">&times;</span>
         <div class="modal-header">Privacy Policy</div>
         <div class="modal-body">
-**CasinoForge Privacy Policy**
-Last Updated: July 2026
-
-**1. Data We Collect**
-CasinoForge limits data collection strictly to what is necessary for operations. This includes your Discord User ID, Server ID, username, and virtual economy balances. We do not access or store personal real-world identities.
-
-**2. How We Use Data**
-Your data is used entirely to run the casino games, track server-specific scores, and process commands smoothly. 
-
-**3. Data Storage & Security**
-All virtual casino metrics are stored securely. We do not sell, trade, or distribute your server's data or profiles to any third-party entities.
-
-**4. User Rights**
-You have complete control over your data. If you wish to wipe your economy records or bot history from our systems, simply remove the bot or reach out directly via our developer portal.
+            <p><strong>CasinoForge Privacy Policy</strong><br>Last Updated: July 2026</p>
+            
+            <p><strong>1. Data We Collect</strong><br>
+            CasinoForge limits data collection strictly to what is necessary for operations. This includes your Discord User ID, Server ID, username, and virtual economy balances. We do not access or store personal real-world identities.</p>
+            
+            <p><strong>2. How We Use Data</strong><br>
+            Your data is used entirely to run the casino games, track server-specific scores, and process commands smoothly.</p>
+            
+            <p><strong>3. Data Storage & Security</strong><br>
+            All virtual casino metrics are stored securely. We do not sell, trade, or distribute your server's data or profiles to any third-party entities.</p>
+            
+            <p><strong>4. User Rights</strong><br>
+            You have complete control over your data. If you wish to wipe your economy records or bot history from our systems, simply remove the bot or reach out directly via our developer portal.</p>
         </div>
     </div>
 </div>
@@ -242,20 +257,19 @@ You have complete control over your data. If you wish to wipe your economy recor
         <span class="close-btn" onclick="clearRoute()">&times;</span>
         <div class="modal-header">Terms of Service</div>
         <div class="modal-body">
-**CasinoForge Terms of Service**
-Last Updated: July 2026
-
-**1. Acceptance of Terms**
-By inviting CasinoForge to your server or executing its commands, you agree to comply with these terms and conditions.
-
-**2. Virtual Currency Disclaimer**
-All tokens, coins, and reward structures operated by CasinoForge are strictly virtual. They hold **zero real-world financial value**. Trading virtual currency for real money, services, or goods outside the bot ecosystem is strictly prohibited.
-
-**3. Fair Play & Exploits**
-Any attempts to exploit bugs, abuse duplicate glitches, macro spam, or cheat the economy systems will result in an immediate global ban from using the bot.
-
-**4. Limitation of Liability**
-CasinoForge is provided "as-is". The developers are not liable for any server data loss, server downtime, or disruptions within your community space.
+            <p><strong>CasinoForge Terms of Service</strong><br>Last Updated: July 2026</p>
+            
+            <p><strong>1. Acceptance of Terms</strong><br>
+            By inviting CasinoForge to your server or executing its commands, you agree to comply with these terms and conditions.</p>
+            
+            <p><strong>2. Virtual Currency Disclaimer</strong><br>
+            All tokens, coins, and reward structures operated by CasinoForge are strictly virtual. They hold <strong>zero real-world financial value</strong>. Trading virtual currency for real money, services, or goods outside the bot ecosystem is strictly prohibited.</p>
+            
+            <p><strong>3. Fair Play & Exploits</strong><br>
+            Any attempts to exploit bugs, abuse duplicate glitches, macro spam, or cheat the economy systems will result in an immediate global ban from using the bot.</p>
+            
+            <p><strong>4. Limitation of Liability</strong><br>
+            CasinoForge is provided "as-is". The developers are not liable for any server data loss, server downtime, or disruptions within your community space.</p>
         </div>
     </div>
 </div>
@@ -263,38 +277,11 @@ CasinoForge is provided "as-is". The developers are not liable for any server da
 <script>
     const DISCORD_INVITE_URL = "https://discord.com";
 
-    // Handle initial routing and URL adjustments on dynamic user navigation
+    // Handle routing and display logic on load or url path updates
     function handleRouting() {
         const hash = window.location.hash;
         
         // Hide all modals by default
         document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
 
-        if (hash === '#invite') {
-            // Clean routing to prevent multi-tab infinite loops on target platforms
-            window.location.hash = ''; 
-            window.open(DISCORD_INVITE_URL, '_blank');
-        } else if (hash === '#privacypolicy') {
-            document.getElementById('privacypolicy').style.display = 'flex';
-        } else if (hash === '#tos') {
-            document.getElementById('tos').style.display = 'flex';
-        }
-    }
-
-    function clearRoute() {
-        window.location.hash = '';
-    }
-
-    // Monitor browser path changes instantly
-    window.addEventListener('hashchange', handleRouting);
-    window.addEventListener('load', handleRouting);
-
-    // Dynamic background closure for modals
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            clearRoute();
-        }
-    }
-</script>
-
-</body>
+if (hash === '#invite') {window.location.hash = '';window.open(DISCORD_INVITE_URL, '_blank');} else if (hash === '#privacypolicy') {document.getElementById('privacypolicy').style.display = 'flex';} else if (hash === '#tos') {document.getElementById('tos').style.display = 'flex';}}function clearRoute() {window.location.hash = '';}// Event listeners to handle real-time hashtag path monitoringwindow.addEventListener('hashchange', handleRouting);window.addEventListener('load', handleRouting);// Modal shadow click handler to reset pathswindow.onclick = function(event) {if (event.target.classList.contains('modal')) {clearRoute();}}
